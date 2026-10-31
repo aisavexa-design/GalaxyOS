@@ -985,22 +985,16 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     }
 
     // LC-Note: For listener to avoid querying stale value.
-    private boolean updateBottomSheetBackgroundColor(boolean blurEnabled) {
-        int defaultColor;
-        if (!Flags.allAppsBlur()) {
-            defaultColor = mBottomSheetBackgroundColorLegacy;
-        } else if (!blurEnabled) {
-            defaultColor = mBottomSheetBackgroundColorBlurFallback;
-        } else {
-            defaultColor = mBottomSheetBackgroundColorOverBlur;
-        }
+        private boolean updateBottomSheetBackgroundColor(boolean blurEnabled) {
+        // GalaxyOS: always use the blurred/translucent background color
+        int defaultColor = mBottomSheetBackgroundColorOverBlur;
         int newColor = LawnchairUtilsKt.getAllAppsBackgroundColor(mActivityContext, defaultColor);
         if (mCachedBottomSheetBgColor != newColor) {
             mCachedBottomSheetBgColor = newColor;
             return true;
         }
         return false;
-    }
+        }
 
     boolean isBackgroundBlurEnabled() {
         return Flags.allAppsBlur() && mActivityContext.isAllAppsBackgroundBlurEnabled();
